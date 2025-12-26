@@ -1,4 +1,4 @@
-# Core Dependencies - Phase 0
+# Core Dependencies 
 pyyaml>=6.0.1
 python-dateutil>=2.8.2
 
@@ -15,9 +15,11 @@ mypy>=1.8.0
 # Development
 ipython>=8.19.0
 
-# Future phases will add:
-# - PyPDF2 / pdfplumber (Phase 1)
-# - python-docx (Phase 1)
-# - scikit-learn (Phase 4)
-# - spacy (Phase 4)
-# - language-tool-python (Phase 5)
+
+# PDF/DOCX parsing
+pdfplumber>=0.10.3
+PyPDF2>=3.0.1
+python-docx>=1.1.0
+
+# Text processing
+python-dateutil>=2.8.2
