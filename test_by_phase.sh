@@ -32,28 +32,34 @@ echo ""
 
 case $PHASE in
     0|phase0)
-        echo " Phase 0: Environment Setup & Project Initialization"
+        echo "📦 Phase 0: Environment Setup & Project Initialization"
         pytest tests/test_phase0/ -v --cov=src/config --cov=src/utils --cov=src/pipeline --cov-report=term-missing
         ;;
     
     1|phase1)
-        echo " Phase 1: Resume Parsing & Structure Detection"
+        echo "📄 Phase 1: Resume Parsing & Structure Detection"
         pytest tests/test_phase1/ -v --cov=src/parser --cov=src/models --cov-report=term-missing
         ;;
     
+    2|phase2)
+        echo "📊 Phase 2: Baseline Rule-Based ATS Scoring"
+        pytest tests/test_phase2/ -v --cov=src/scoring --cov-report=term-missing
+        ;;
+    
     all)
-        echo " Running ALL tests (Phase 0 + Phase 1)"
+        echo "🧪 Running ALL tests (Phase 0 + Phase 1 + Phase 2)"
         pytest tests/ -v --cov=src --cov-report=term-missing --cov-report=html
         ;;
     
     *)
-        echo " Invalid phase: $PHASE"
+        echo "❌ Invalid phase: $PHASE"
         echo ""
         echo "Usage: $0 [phase]"
         echo ""
         echo "Available phases:"
         echo "  0 or phase0  - Environment Setup tests"
         echo "  1 or phase1  - Resume Parsing tests"
+        echo "  2 or phase2  - ATS Scoring tests"
         echo "  all          - All tests (default)"
         echo ""
         exit 1
