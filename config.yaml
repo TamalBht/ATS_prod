@@ -85,3 +85,22 @@ scoring:
     has_certifications: 3
     quantifiable_achievements: 5
     multiple_projects: 3
+
+roles:
+  # Role detection settings
+  detection:
+    min_confidence: 0.3  # Minimum confidence to assign a role
+    use_skills: true
+    use_experience: true
+    use_keywords: true
+  
+  # Default role (used when no specific role detected)
+  default_role: "general"
+  
+  # Role matching weights
+  matching_weights:
+    skills: 0.6
+    keywords: 0.3
+    experience: 0.1
+
+# Future phase configurations

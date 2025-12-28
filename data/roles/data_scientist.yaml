@@ -1,0 +1,75 @@
+role_id: data_scientist
+role_name: Data Scientist
+description: Data scientist specializing in statistical analysis, machine learning, and data visualization
+
+section_weights:
+  summary: 0.15
+  experience: 0.30
+  education: 0.25
+  skills: 0.22
+  projects: 0.06
+  certifications: 0.02
+
+skills:
+  core:
+    - Python
+    - R
+    - SQL
+    - Statistics
+    - Machine Learning
+    - Pandas
+    - NumPy
+    - Scikit-learn
+    - Data Analysis
+    - Data Visualization
+  
+  important:
+    - TensorFlow
+    - PyTorch
+    - Keras
+    - Jupyter
+    - Matplotlib
+    - Seaborn
+    - Tableau
+    - Power BI
+    - Big Data
+    - Spark
+    - Hadoop
+    - A/B Testing
+    - Hypothesis Testing
+  
+  bonus:
+    - Deep Learning
+    - NLP
+    - Computer Vision
+    - MLflow
+    - Airflow
+    - Databricks
+    - AWS SageMaker
+    - XGBoost
+    - LightGBM
+    - Feature Engineering
+
+keywords:
+  - data science
+  - machine learning
+  - statistical analysis
+  - predictive modeling
+  - data mining
+  - analytics
+  - ML models
+  - data insights
+  - algorithms
+  - experimentation
+
+min_years_experience: 2
+
+metadata:
+  typical_titles:
+    - Data Scientist
+    - ML Engineer
+    - Research Scientist
+    - Analytics Engineer
+  education_preference: masters_or_phd
+  related_roles:
+    - ml_engineer

@@ -1,0 +1,73 @@
+role_id: frontend_engineer
+role_name: Frontend Engineer
+description: Frontend engineer specializing in user interfaces, web applications, and client-side development
+
+section_weights:
+  summary: 0.12
+  experience: 0.32
+  education: 0.16
+  skills: 0.28          # High weight for frontend technologies
+  projects: 0.10        # Projects important for portfolio
+  certifications: 0.02
+
+skills:
+  core:
+    - JavaScript
+    - HTML
+    - CSS
+    - React
+    - Vue.js
+    - Angular
+    - TypeScript
+    - Responsive Design
+    - Web Performance
+  
+  important:
+    - Redux
+    - Next.js
+    - Webpack
+    - Babel
+    - SASS
+    - Tailwind CSS
+    - Jest
+    - Testing Library
+    - REST API
+    - Git
+    - npm
+    - Accessibility
+    - UI/UX
+  
+  bonus:
+    - GraphQL
+    - Web Components
+    - PWA
+    - Service Workers
+    - WebSockets
+    - D3.js
+    - Three.js
+    - Cypress
+    - Storybook
+    - Figma
+
+keywords:
+  - frontend
+  - front-end
+  - UI development
+  - web development
+  - responsive design
+  - user interface
+  - client-side
+  - SPA
+  - single page application
+  - component-based
+
+min_years_experience: 2
+
+metadata:
+  typical_titles:
+    - Frontend Engineer
+    - Frontend Developer
+    - UI Developer
+    - Web Developer
+  related_roles:
+    - fullstack_engineer

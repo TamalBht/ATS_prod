@@ -1,0 +1,86 @@
+role_id: backend_engineer
+role_name: Backend Engineer
+description: Backend software engineer specializing in server-side development, APIs, and databases
+
+# Section weight overrides (higher weight = more important for this role)
+section_weights:
+  summary: 0.12
+  experience: 0.35      # Higher weight for backend
+  education: 0.18
+  skills: 0.25          # Higher weight for technical skills
+  projects: 0.08
+  certifications: 0.02
+
+# Skills categorization
+skills:
+  # Core skills (must-have)
+  core:
+    - Python
+    - Java
+    - Node.js
+    - Go
+    - Ruby
+    - C#
+    - REST API
+    - GraphQL
+    - SQL
+    - PostgreSQL
+    - MySQL
+    - MongoDB
+  
+  # Important skills (should-have)
+  important:
+    - Redis
+    - Kafka
+    - RabbitMQ
+    - Microservices
+    - Docker
+    - Kubernetes
+    - AWS
+    - Azure
+    - GCP
+    - CI/CD
+    - Git
+    - Linux
+    - Nginx
+    - API Design
+  
+  # Bonus skills (nice-to-have)
+  bonus:
+    - Terraform
+    - Ansible
+    - gRPC
+    - Elasticsearch
+    - Prometheus
+    - Grafana
+    - Jenkins
+    - GitLab CI
+    - System Design
+    - Load Balancing
+
+# Keywords for role detection
+keywords:
+  - backend
+  - server-side
+  - API development
+  - database design
+  - microservices
+  - distributed systems
+  - scalability
+  - performance optimization
+  - REST
+  - GraphQL
+
+# Minimum experience
+min_years_experience: 2
+
+# Additional metadata
+metadata:
+  typical_titles:
+    - Backend Engineer
+    - Backend Developer
+    - Server-Side Developer
+    - API Developer
+  related_roles:
+    - fullstack_engineer
+    - devops_engineer
