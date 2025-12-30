@@ -15,6 +15,13 @@ from src.utils.text_utils import count_words
 from src.utils.logger import get_logger
 from src.utils.exceptions import ATSScorerException
 
+# Try to import NLP skill extractor (optional)
+try:
+    from src.nlp.skill_extractor import SkillExtractor
+    NLP_SKILL_EXTRACTION_AVAILABLE = True
+except ImportError:
+    NLP_SKILL_EXTRACTION_AVAILABLE = False
+
 
 class ParsingError(ATSScorerException):
     """Raised when resume parsing fails."""
@@ -30,6 +37,15 @@ class ResumeParser:
         self.pdf_parser = PDFParser()
         self.docx_parser = DOCXParser()
         self.section_detector = SectionDetector()
+        
+        # Initialize NLP skill extractor if available
+        self.skill_extractor = None
+        if NLP_SKILL_EXTRACTION_AVAILABLE:
+            try:
+                self.skill_extractor = SkillExtractor()
+                self.logger.info("NLP skill extraction enabled")
+            except Exception as e:
+                self.logger.warning(f"Could not initialize NLP skill extractor: {e}")
     
     def parse(self, file_path: str | Path) -> ResumeData:
         """
@@ -119,10 +135,40 @@ class ResumeParser:
         if 'summary' in resume_data.sections:
             resume_data.summary = resume_data.sections['summary'].content
         
-        # Extract skills
+        # Extract skills using NLP if available, otherwise use basic extraction
         if 'skills' in resume_data.sections:
             skills_text = resume_data.sections['skills'].content
-            resume_data.skills = self.section_detector.extract_skills(skills_text)
+            
+            if self.skill_extractor:
+                # Use NLP-enhanced extraction
+                try:
+                    resume_data.skills = self.skill_extractor.extract_skills(
+                        resume_data.raw_text,  # Use full text for better context
+                        use_patterns=True,
+                        use_tfidf=True,
+                        use_context=True
+                    )
+                    self.logger.info(f"NLP extracted {len(resume_data.skills)} skills")
+                except Exception as e:
+                    self.logger.warning(f"NLP skill extraction failed, using basic: {e}")
+                    # Fallback to basic extraction
+                    resume_data.skills = self.section_detector.extract_skills(skills_text)
+            else:
+                # Use basic extraction
+                resume_data.skills = self.section_detector.extract_skills(skills_text)
+        elif self.skill_extractor:
+            # No skills section found, but try to extract skills from full text using NLP
+            try:
+                resume_data.skills = self.skill_extractor.extract_skills(
+                    resume_data.raw_text,
+                    use_patterns=True,
+                    use_tfidf=True,
+                    use_context=False  # No explicit section
+                )
+                self.logger.info(f"NLP extracted {len(resume_data.skills)} skills from full text")
+            except Exception as e:
+                self.logger.warning(f"NLP skill extraction from full text failed: {e}")
+                resume_data.skills = []
         
         # Note: Experience, Education, Projects parsing will be enhanced in later phases
         # For now, we store raw section content
@@ -194,7 +240,7 @@ class ResumeParser:
         confidence = 1.0
         
         # Reduce confidence if text is very short
-        if len(text) < 30:
+        if len(text) < 100:
             confidence *= 0.5
         
         # Reduce confidence if text has too many special characters

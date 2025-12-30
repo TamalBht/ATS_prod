@@ -1,5 +1,5 @@
 """
-Keyword presence and content quality scoring
+Keyword presence and content quality scoring with NLP enhancements
 """
 
 import re
@@ -9,9 +9,29 @@ from src.scoring.base_scorer import BaseScorer
 from src.models.resume_data import ResumeData
 from src.models.score_data import CategoryScore
 
+# Try to import NLP components
+try:
+    from src.nlp.keyword_analyzer import KeywordAnalyzer
+    NLP_AVAILABLE = True
+except ImportError:
+    NLP_AVAILABLE = False
+
 
 class KeywordScorer(BaseScorer):
     """Scores resume based on keyword presence and content quality."""
+    
+    def __init__(self):
+        """Initialize keyword scorer."""
+        super().__init__()
+        
+        # Initialize NLP analyzer if available
+        self.keyword_analyzer = None
+        if NLP_AVAILABLE:
+            try:
+                self.keyword_analyzer = KeywordAnalyzer()
+                self.logger.info("NLP-based keyword analysis enabled")
+            except Exception as e:
+                self.logger.warning(f"Could not initialize NLP analyzer: {e}")
     
     def get_max_score(self) -> float:
         """Get maximum content quality score."""
@@ -47,6 +67,58 @@ class KeywordScorer(BaseScorer):
     def _score_keywords(self, resume_data: ResumeData) -> float:
         """
         Score based on essential keyword presence (0.0 to 1.0).
+        Uses NLP if available, falls back to simple matching.
+        
+        Args:
+            resume_data: Parsed resume data
+            
+        Returns:
+            Keyword score
+        """
+        if self.keyword_analyzer:
+            return self._score_keywords_nlp(resume_data)
+        else:
+            return self._score_keywords_simple(resume_data)
+    
+    def _score_keywords_nlp(self, resume_data: ResumeData) -> float:
+        """
+        Score keywords using NLP analysis.
+        
+        Args:
+            resume_data: Parsed resume data
+            
+        Returns:
+            Keyword score (0-1)
+        """
+        essential_keywords = self.config.get('essential_keywords', {})
+        
+        # Flatten all keywords
+        all_keywords = []
+        for category, keywords in essential_keywords.items():
+            all_keywords.extend(keywords)
+        
+        if not all_keywords:
+            return 1.0
+        
+        # Analyze keywords
+        analysis = self.keyword_analyzer.analyze_keywords(resume_data, all_keywords)
+        
+        # Use quality score from NLP analysis
+        base_score = analysis['quality_score']
+        
+        # Bonus for good density
+        if analysis['density_analysis']['is_optimal']:
+            base_score = min(1.0, base_score + 0.1)
+        
+        # Penalty for keyword stuffing
+        if analysis['density_analysis']['is_stuffed']:
+            base_score *= 0.7
+        
+        return base_score
+    
+    def _score_keywords_simple(self, resume_data: ResumeData) -> float:
+        """
+        Simple keyword scoring (fallback when NLP unavailable).
         
         Args:
             resume_data: Parsed resume data
@@ -61,10 +133,8 @@ class KeywordScorer(BaseScorer):
         total_categories = len(essential_keywords)
         
         for category, keywords in essential_keywords.items():
-            # Check if any keyword from this category is present
             if any(keyword.lower() in text for keyword in keywords):
                 found_categories += 1
-                self.logger.debug(f"Found keywords from category: {category}")
         
         if total_categories == 0:
             return 1.0
