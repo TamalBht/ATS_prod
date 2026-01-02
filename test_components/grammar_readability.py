@@ -60,7 +60,7 @@ class GrammarReadabilityDemo:
             resume_path: Path to PDF/DOCX resume
             detailed: Whether to show detailed component analysis
         """
-        print(f"📄 Analyzing Resume: {resume_path}")
+        print(f" Analyzing Resume: {resume_path}")
         print("-" * 80)
         
         # Step 1: Parse Resume
@@ -107,7 +107,7 @@ class GrammarReadabilityDemo:
         
         # Save Results
         output_path = self._save_results(resume_path, language_results)
-        print(f"\n💾 Results saved to: {output_path}")
+        print(f"\n Results saved to: {output_path}")
         
         return language_results
     
@@ -115,10 +115,10 @@ class GrammarReadabilityDemo:
         """Display overall language quality score and summary."""
         summary = results['summary']
         
-        print(f"\n🎯 OVERALL LANGUAGE QUALITY SCORE: {summary['overall_score']:.2f}/100")
+        print(f"\n OVERALL LANGUAGE QUALITY SCORE: {summary['overall_score']:.2f}/100")
         print(f"   Grade: {summary['grade']}")
         print(f"   Assessment: {summary['assessment']}")
-        print(f"\n   📊 Sections Analyzed: {summary['sections_analyzed']}")
+        print(f"\n    Sections Analyzed: {summary['sections_analyzed']}")
         
         if summary['strongest_section']:
             print(f"   ✓ Strongest Section: {summary['strongest_section'].upper()}")
@@ -133,7 +133,7 @@ class GrammarReadabilityDemo:
             print("No sections available for analysis.")
             return
         
-        print("\n📋 Section Scores:")
+        print("\n Section Scores:")
         print("-" * 80)
         
         for section_name, section_data in section_scores.items():
@@ -156,7 +156,7 @@ class GrammarReadabilityDemo:
         
         for section_name, section_data in section_scores.items():
             print(f"\n{'─' * 80}")
-            print(f"📝 {section_name.upper()} SECTION")
+            print(f" {section_name.upper()} SECTION")
             print(f"{'─' * 80}")
             
             score = section_data['language_quality_score']
@@ -167,7 +167,7 @@ class GrammarReadabilityDemo:
             
             # Grammar Details
             grammar = components['grammar']
-            print(f"\n  📖 GRAMMAR: {grammar['score']:.1f}/100")
+            print(f"\n   GRAMMAR: {grammar['score']:.1f}/100")
             print(f"     Total Issues: {grammar['total_issues']}")
             if grammar['issue_breakdown']:
                 print(f"     Breakdown:")
@@ -178,14 +178,14 @@ class GrammarReadabilityDemo:
             
             # Readability Details
             readability = components['readability']
-            print(f"\n  📊 READABILITY: {readability['score']:.1f}/100")
+            print(f"\n   READABILITY: {readability['score']:.1f}/100")
             print(f"     Flesch Reading Ease: {readability['flesch_reading_ease']:.1f}")
             print(f"     Interpretation: {readability['interpretation']}")
             print(f"     {readability['explanation']}")
             
             # Clarity Details
             clarity = components['clarity']
-            print(f"\n  ✨ CLARITY: {clarity['score']:.1f}/100")
+            print(f"\n   CLARITY: {clarity['score']:.1f}/100")
             if 'analysis' in clarity and clarity['analysis']:
                 analysis = clarity['analysis']
                 print(f"     Avg Sentence Length: {analysis.get('avg_sentence_length', 0):.1f} words")
@@ -195,7 +195,7 @@ class GrammarReadabilityDemo:
             
             # Section-specific recommendations
             if section_data.get('recommendations'):
-                print(f"\n  💡 Recommendations:")
+                print(f"\n   Recommendations:")
                 for rec in section_data['recommendations'][:3]:  # Top 3
                     print(f"     [{rec['priority'].upper()}] {rec['issue']}")
                     print(f"     → {rec['suggestion']}")
@@ -206,7 +206,7 @@ class GrammarReadabilityDemo:
         components = global_analysis['components']
         
         # Grammar Deep Dive
-        print("\n📖 GRAMMAR ANALYSIS")
+        print("\n GRAMMAR ANALYSIS")
         print("-" * 80)
         grammar = components['grammar']
         print(f"Score: {grammar['score']:.2f}/100")
@@ -219,7 +219,7 @@ class GrammarReadabilityDemo:
                 print(f"  • {issue_type.capitalize()}: {count}")
         
         # Readability Deep Dive
-        print("\n\n📊 READABILITY ANALYSIS")
+        print("\n\n READABILITY ANALYSIS")
         print("-" * 80)
         readability = components['readability']
         print(f"Score: {readability['score']:.2f}/100")
@@ -228,7 +228,7 @@ class GrammarReadabilityDemo:
         print(f"Explanation: {readability['explanation']}")
         
         # Clarity Deep Dive
-        print("\n\n✨ CLARITY ANALYSIS")
+        print("\n\n CLARITY ANALYSIS")
         print("-" * 80)
         clarity = components['clarity']
         print(f"Score: {clarity['score']:.2f}/100")
@@ -253,7 +253,7 @@ class GrammarReadabilityDemo:
             print("✓ No major issues detected. Language quality is excellent!")
             return
         
-        print("\n💡 ACTIONABLE RECOMMENDATIONS")
+        print("\n ACTIONABLE RECOMMENDATIONS")
         print("-" * 80)
         
         # Group by priority
@@ -262,25 +262,25 @@ class GrammarReadabilityDemo:
         low_priority = [r for r in recommendations if r['priority'] == 'low']
         
         if high_priority:
-            print("\n🔴 HIGH PRIORITY:")
+            print("\n HIGH PRIORITY:")
             for i, rec in enumerate(high_priority, 1):
                 print(f"\n  {i}. {rec['issue']}")
                 print(f"     Category: {rec['category'].upper()}")
-                print(f"     💡 Suggestion: {rec['suggestion']}")
+                print(f"      Suggestion: {rec['suggestion']}")
         
         if medium_priority:
-            print("\n🟡 MEDIUM PRIORITY:")
+            print("\n MEDIUM PRIORITY:")
             for i, rec in enumerate(medium_priority, 1):
                 print(f"\n  {i}. {rec['issue']}")
                 print(f"     Category: {rec['category'].upper()}")
-                print(f"     💡 Suggestion: {rec['suggestion']}")
+                print(f"      Suggestion: {rec['suggestion']}")
         
         if low_priority:
-            print("\n🟢 LOW PRIORITY:")
+            print("\n LOW PRIORITY:")
             for i, rec in enumerate(low_priority, 1):
                 print(f"\n  {i}. {rec['issue']}")
                 print(f"     Category: {rec['category'].upper()}")
-                print(f"     💡 Suggestion: {rec['suggestion']}")
+                print(f"      Suggestion: {rec['suggestion']}")
     
     def _save_results(self, resume_path: str, results: dict) -> str:
         """Save analysis results to JSON file."""
@@ -320,7 +320,7 @@ class GrammarReadabilityDemo:
         print(f"\nSample Text:\n\"{sample_text}\"\n")
         
         # Grammar Check
-        print("\n1️⃣ GRAMMAR CHECKER")
+        print("\n 1️ GRAMMAR CHECKER")
         print("-" * 80)
         grammar_result = self.grammar_checker.calculate_grammar_score(sample_text)
         print(f"Grammar Score: {grammar_result['score']:.2f}/100")
@@ -328,7 +328,7 @@ class GrammarReadabilityDemo:
         print(f"Explanation: {grammar_result['explanation']}")
         
         # Readability Analysis
-        print("\n\n2️⃣ READABILITY ANALYZER")
+        print("\n\n 2️ READABILITY ANALYZER")
         print("-" * 80)
         readability_result = self.readability_analyzer.calculate_readability_score(sample_text)
         print(f"Readability Score: {readability_result['score']:.2f}/100")
@@ -337,7 +337,7 @@ class GrammarReadabilityDemo:
         print(f"Explanation: {readability_result['explanation']}")
         
         # Clarity Analysis
-        print("\n\n3️⃣ CLARITY SCORER")
+        print("\n\n3️ CLARITY SCORER")
         print("-" * 80)
         clarity_result = self.clarity_scorer.calculate_clarity_score(sample_text)
         print(f"Clarity Score: {clarity_result['score']:.2f}/100")
@@ -423,7 +423,7 @@ Examples:
                 break
         
         if not resume_path:
-            print("❌ Error: No resume file specified and no sample resume found.")
+            print(" Error: No resume file specified and no sample resume found.")
             print("\nUsage:")
             print("  python grammar_readability.py --resume path/to/resume.pdf")
             print("\nOr place a sample resume at:")
@@ -432,7 +432,7 @@ Examples:
     
     # Validate file exists
     if not os.path.exists(resume_path):
-        print(f"❌ Error: Resume file not found: {resume_path}")
+        print(f" Error: Resume file not found: {resume_path}")
         sys.exit(1)
     
     # Run analysis
@@ -441,13 +441,13 @@ Examples:
         
         if results:
             print("\n" + "=" * 80)
-            print("✅ ANALYSIS COMPLETE")
+            print(" ANALYSIS COMPLETE")
             print("=" * 80)
-            print(f"\n🎯 Final Language Quality Score: {results['summary']['overall_score']:.2f}/100")
+            print(f"\n Final Language Quality Score: {results['summary']['overall_score']:.2f}/100")
             print(f"   Grade: {results['summary']['grade']}")
             
             # Quick tips
-            print("\n📌 Quick Tips:")
+            print("\n Quick Tips:")
             if results['summary']['overall_score'] >= 85:
                 print("   • Excellent work! Your resume demonstrates professional language quality.")
             elif results['summary']['overall_score'] >= 70:
@@ -458,7 +458,7 @@ Examples:
             print("\n   Run with --detailed flag for comprehensive section analysis.")
         
     except Exception as e:
-        print(f"\n❌ Error during analysis: {e}")
+        print(f"\n Error during analysis: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
