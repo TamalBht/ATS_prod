@@ -32,30 +32,30 @@ def main():
             if resumes:
                 resume_path = str(resumes[0])
             else:
-                print("❌ No sample resumes found")
+                print(" No sample resumes found")
                 return 1
         else:
-            print("❌ No resume file specified")
+            print(" No resume file specified")
             return 1
     
-    print_header("🧠 NLP KEYWORD ANALYSIS - PHASE 4 DEMO")
-    print(f"\n📂 Analyzing: {resume_path}")
+    print_header(" NLP KEYWORD ANALYSIS - PHASE 4 DEMO")
+    print(f"\n Analyzing: {resume_path}")
     
     try:
         # Parse resume
-        print("\n⏳ Step 1/3: Parsing resume...")
+        print("\n Step 1/3: Parsing resume...")
         parser = ResumeParser()
         resume_data = parser.parse(resume_path)
         print(f"✓ Parsed ({resume_data.metadata.parsing_time_ms:.1f}ms)")
         
         # Initialize analyzers
-        print("\n⏳ Step 2/3: Initializing NLP analyzers...")
+        print("\n Step 2/3: Initializing NLP analyzers...")
         vectorizer = TextVectorizer()
         analyzer = KeywordAnalyzer()
         print("✓ Analyzers ready")
         
         # Extract TF-IDF keywords
-        print("\n⏳ Step 3/3: Analyzing keywords...")
+        print("\n Step 3/3: Analyzing keywords...")
         tfidf_keywords = vectorizer.extract_keywords_tfidf(resume_data.raw_text, top_n=20)
         
         # Target keywords for demonstration
@@ -68,7 +68,7 @@ def main():
         analysis = analyzer.analyze_keywords(resume_data, target_keywords)
         
         # Display TF-IDF results
-        print_header("📊 TF-IDF KEYWORD EXTRACTION")
+        print_header(" TF-IDF KEYWORD EXTRACTION")
         print("\n  Top 20 Keywords by Importance:")
         for i, (keyword, score) in enumerate(tfidf_keywords, 1):
             bar_length = int(score * 50)
@@ -77,15 +77,15 @@ def main():
         
         # Display direct matches
         if analysis['direct_matches']:
-            print_header("✅ DIRECT KEYWORD MATCHES")
+            print_header(" DIRECT KEYWORD MATCHES")
             for keyword, count in analysis['direct_matches'].items():
                 print(f"  • {keyword}: {count} occurrence(s)")
         else:
-            print_header("⚠️  NO DIRECT MATCHES")
+            print_header("  NO DIRECT MATCHES")
             print("  None of the target keywords found in resume")
         
         # Display density analysis
-        print_header("📈 KEYWORD DENSITY ANALYSIS")
+        print_header(" KEYWORD DENSITY ANALYSIS")
         density = analysis['density_analysis']
         print(f"\n  Keyword Density: {density['density']:.2f} keywords per 100 words")
         print(f"  Optimal Range: {density['optimal_range'][0]:.1f} - {density['optimal_range'][1]:.1f}")
@@ -100,7 +100,7 @@ def main():
         
         # Display context scores
         if analysis['context_scores']:
-            print_header("🎯 KEYWORD CONTEXT ANALYSIS")
+            print_header(" KEYWORD CONTEXT ANALYSIS")
             print("\n  Context quality (keywords in meaningful sentences):")
             for keyword, score in sorted(analysis['context_scores'].items(), 
                                         key=lambda x: x[1], reverse=True):
@@ -109,7 +109,7 @@ def main():
         
         # Display semantic matches (if available)
         if analysis['semantic_matches']:
-            print_header("🔗 SEMANTIC MATCHES")
+            print_header("SEMANTIC MATCHES")
             print("\n  Similar terms found in resume:")
             for target_kw, matches in list(analysis['semantic_matches'].items())[:5]:
                 print(f"\n  Target: '{target_kw}'")
@@ -117,7 +117,7 @@ def main():
                     print(f"    → '{matched_term}' (similarity: {similarity:.2f})")
         
         # Display overall quality
-        print_header("⭐ OVERALL KEYWORD QUALITY")
+        print_header(" OVERALL KEYWORD QUALITY")
         quality_score = analysis['quality_score']
         percentage = quality_score * 100
         
@@ -130,12 +130,12 @@ def main():
         elif percentage >= 60:
             print("  ✓ Good keyword usage")
         elif percentage >= 40:
-            print("  ⚠ Moderate keyword optimization")
+            print("  [!] Moderate keyword optimization")
         else:
             print("  ✗ Needs improvement")
         
         # Recommendations
-        print_header("💡 RECOMMENDATIONS")
+        print_header(" RECOMMENDATIONS")
         
         if density['is_stuffed']:
             print("  1. Reduce keyword repetition - may appear as spam")
@@ -169,17 +169,17 @@ def main():
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(output_data, f, indent=2, ensure_ascii=False)
         
-        print_header("💾 ANALYSIS SAVED")
+        print_header(" ANALYSIS SAVED")
         print(f"\n  Detailed report: {output_file}")
         
         print("\n" + "=" * 70)
-        print("  ✅ NLP keyword analysis complete!")
+        print("   NLP keyword analysis complete!")
         print("=" * 70 + "\n")
         
         return 0
         
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n Error: {e}")
         import traceback
         traceback.print_exc()
         return 1

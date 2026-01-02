@@ -32,3 +32,7 @@ scipy>=1.11.0
 # Optional: Advanced NLP (comment out if not needed)
 spacy>=3.7.0
  python-Levenshtein>=0.23.0
+
+#Grammar and readability
+language-tool-python==2.7.1
+textstat==0.7.3
