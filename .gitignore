@@ -54,3 +54,4 @@ data/output/*.json
 !data/input/.gitkeep
 !data/output/.gitkeep
 !data/logs/.gitkeep
+data/sample_resumes/*.pdf

@@ -44,9 +44,9 @@ class ATSCompatibilityDemo:
             role_name: Optional role name for keyword matching
             detailed: Whether to show detailed component analysis
         """
-        print(f"📄 Analyzing Resume: {resume_path}")
+        print(f" Analyzing Resume: {resume_path}")
         if role_name:
-            print(f"🎯 Target Role: {role_name}")
+            print(f" Target Role: {role_name}")
         print("-" * 80)
         
         # Step 1: Parse Resume
@@ -113,7 +113,7 @@ class ATSCompatibilityDemo:
         
         # Save Results
         output_path = self._save_results(resume_path, ats_results)
-        print(f"\n💾 Results saved to: {output_path}")
+        print(f"\n Results saved to: {output_path}")
         
         return ats_results
     
@@ -209,17 +209,17 @@ class ATSCompatibilityDemo:
         bar_length = int(score / 5)
         bar = "█" * bar_length + "░" * (20 - bar_length)
         
-        print(f"\n🎯 OVERALL ATS COMPATIBILITY SCORE")
+        print(f"\n  OVERALL ATS COMPATIBILITY SCORE")
         print(f"   [{bar}] {score:.1f}/100")
         print(f"   Grade: {grade} | {summary['readiness_level']}")
         print(f"   ATS Ready: {'✓ YES' if results['is_ats_ready'] else '✗ NO'}")
         
         # Assessment
-        print(f"\n📋 Assessment:")
+        print(f"\n Assessment:")
         print(f"   {summary['assessment']}")
         
         # Component Scores
-        print(f"\n📊 Component Scores:")
+        print(f"\n Component Scores:")
         for component, score in results['component_scores'].items():
             bar_length = int(score / 5)
             bar = "█" * bar_length + "░" * (20 - bar_length)
@@ -228,7 +228,7 @@ class ATSCompatibilityDemo:
         
         # Issues Summary
         issues = results['issues_by_severity']
-        print(f"\n⚠️  Issues Detected: {issues['total_count']}")
+        print(f"\n  Issues Detected: {issues['total_count']}")
         if issues['critical_count'] > 0:
             print(f"   🔴 Critical: {issues['critical_count']}")
         if issues['high_count'] > 0:
@@ -239,7 +239,7 @@ class ATSCompatibilityDemo:
             print(f"   🟢 Low:      {issues['low_count']}")
         
         # Top Recommendations
-        print(f"\n💡 TOP RECOMMENDATIONS:")
+        print(f"\n TOP RECOMMENDATIONS:")
         recommendations = results['recommendations'][:5]  # Top 5
         
         for i, rec in enumerate(recommendations, 1):
@@ -264,7 +264,7 @@ class ATSCompatibilityDemo:
         detailed = results['detailed_analysis']
         
         # Format Analysis
-        print("\n📄 FORMAT ANALYSIS")
+        print("\n FORMAT ANALYSIS")
         print("-" * 80)
         format_data = detailed['format']
         print(f"File Format: {format_data['file_format']}")
@@ -280,7 +280,7 @@ class ATSCompatibilityDemo:
                 print(f"  [{issue['severity'].upper()}] {issue['issue']}")
         
         # Structure Analysis
-        print("\n\n📋 STRUCTURE ANALYSIS")
+        print("\n\n STRUCTURE ANALYSIS")
         print("-" * 80)
         structure_data = detailed['structure']
         print(f"Score: {structure_data['structure_score']:.1f}/100")
@@ -293,7 +293,7 @@ class ATSCompatibilityDemo:
         print(f"  • Missing: {', '.join(structure_data['recommended_sections']['missing']) or 'None'}")
         
         # Contact Analysis
-        print("\n\n📞 CONTACT INFORMATION ANALYSIS")
+        print("\n\n CONTACT INFORMATION ANALYSIS")
         print("-" * 80)
         contact_data = detailed['contact']
         print(f"Score: {contact_data['contact_score']:.1f}/100")
@@ -305,7 +305,7 @@ class ATSCompatibilityDemo:
             print(f"  {status} {key.capitalize()}: {display_value}")
         
         # Keyword Analysis
-        print("\n\n🔑 KEYWORD OPTIMIZATION ANALYSIS")
+        print("\n\n KEYWORD OPTIMIZATION ANALYSIS")
         print("-" * 80)
         keyword_data = detailed['keywords']
         print(f"Score: {keyword_data['keyword_score']:.1f}/100")
@@ -323,7 +323,7 @@ class ATSCompatibilityDemo:
                 print(f"  Missing Keywords: {', '.join(role_analysis['missing_keywords'][:10])}")
         
         # Extractability
-        print("\n\n📝 TEXT EXTRACTABILITY ANALYSIS")
+        print("\n\n TEXT EXTRACTABILITY ANALYSIS")
         print("-" * 80)
         extract_data = detailed['extractability']
         print(f"Score: {extract_data['extractability_score']:.1f}/100")
@@ -410,7 +410,7 @@ Examples:
                 break
         
         if not resume_path:
-            print("❌ Error: No resume file specified and no sample resume found.")
+            print(" Error: No resume file specified and no sample resume found.")
             print("\nUsage:")
             print("  python ats_compatibility_check.py --resume path/to/resume.pdf")
             print("\nOr place a sample resume at:")
@@ -419,7 +419,7 @@ Examples:
     
     # Validate file exists
     if not os.path.exists(resume_path):
-        print(f"❌ Error: Resume file not found: {resume_path}")
+        print(f" Error: Resume file not found: {resume_path}")
         sys.exit(1)
     
     # Run analysis
@@ -428,17 +428,17 @@ Examples:
         
         if results:
             print("\n" + "=" * 80)
-            print("✅ ANALYSIS COMPLETE")
+            print(" ANALYSIS COMPLETE")
             print("=" * 80)
             
             score = results['overall_ats_score']
             grade = results['summary']['grade']
             
-            print(f"\n🎯 Final ATS Compatibility Score: {score:.2f}/100 (Grade: {grade})")
+            print(f"\n Final ATS Compatibility Score: {score:.2f}/100 (Grade: {grade})")
             print(f"   Readiness: {results['readiness_level']}")
             
             # Quick action items
-            print("\n📌 Next Steps:")
+            print("\n Next Steps:")
             critical_count = results['issues_by_severity']['critical_count']
             high_count = results['issues_by_severity']['high_count']
             
@@ -454,7 +454,7 @@ Examples:
             print("\n   Run with --detailed flag for comprehensive component analysis.")
     
     except Exception as e:
-        print(f"\n❌ Error during analysis: {e}")
+        print(f"\n Error during analysis: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
