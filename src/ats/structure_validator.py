@@ -143,7 +143,8 @@ class StructureValidator:
     
     def _section_exists(self, parsed_resume: Dict, section_variants: List[str]) -> bool:
         """Check if any variant of a section exists in parsed resume."""
-        resume_keys_lower = {key.lower().strip() for key in parsed_resume.keys()}
+        sections = parsed_resume.get("sections", {})
+        resume_keys_lower = {k.lower().strip() for k in sections.keys()}
         
         for variant in section_variants:
             # Exact match
