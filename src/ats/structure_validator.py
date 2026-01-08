@@ -32,6 +32,34 @@ class StructureValidator:
             'certifications': ['certifications', 'certificates', 'licenses'],
             'projects': ['projects', 'key projects', 'portfolio']
         }
+    def _section_is_empty(self, parsed_resume, section_type: str) -> bool:
+        """
+    Returns True if a required section exists but has no meaningful content.
+    Handles strings, lists, dicts.
+    """
+        if section_type not in parsed_resume:
+            return True  # treat as missing
+
+        data = parsed_resume.get(section_type)
+
+    # Empty or None
+        if data is None:
+            return True
+
+    # Empty string or short meaningless text
+        if isinstance(data, str):
+            return len(data.strip()) < 10
+
+    # Empty list
+        if isinstance(data, list):
+            return len(data) == 0
+    # Empty dict
+        if isinstance(data, dict):
+            return len(data.keys()) == 0
+
+    # Fallback: convert to string
+        return len(str(data).strip()) < 10
+
     
     def validate_structure(self, parsed_resume: Dict) -> Dict:
         """
@@ -51,7 +79,8 @@ class StructureValidator:
         present_required = []
         
         for section_type, section_variants in self.required_sections.items():
-            found = self._section_exists(parsed_resume, section_variants)
+            found = self._section_exists(parsed_resume, section_variants) and not self._section_is_empty(parsed_resume, section_type)
+
             if found:
                 present_required.append(section_type)
             else:
